@@ -3,9 +3,9 @@ package com.example.imt.view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -15,25 +15,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.imt.navigation.Screen
+import com.example.imt.viewModel.ImtViewModel
 
 @Composable
 fun ImtView(
-    navController: NavController
+    navController: NavController,
+    imtViewModel: ImtViewModel
 ){
     val height = remember { mutableStateOf<String>("") }
     val weight = remember { mutableStateOf<String>("") }
+    val result = remember { mutableStateOf<String>("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(18.dp)
+            .padding(22.dp)
             .imePadding(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy (18.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
+            modifier = Modifier.fillMaxWidth(),
             value = height.value,
             onValueChange = {
                 height.value = it
@@ -44,10 +51,8 @@ fun ImtView(
                 )
             }
         )
-        Text(
-            text = height.value
-        )
         TextField(
+            modifier = Modifier.fillMaxWidth(),
             value = weight.value,
             onValueChange = {
                 weight.value = it
@@ -58,18 +63,22 @@ fun ImtView(
                 )
             }
         )
-        Text(
-            text = weight.value
-        )
         Button(
             modifier = Modifier.wrapContentWidth(),
             onClick = {
-                navController.navigate(route = Screen.InfoScreen.route)
+                result.value = imtViewModel.counting(height.value.toDouble() ,weight.value.toDouble())
             }
         ) {
             Text(
                 text = "бупс дупси"
             )
         }
+        Text(
+            text = result.value,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic,
+            textAlign = TextAlign.Center
+        )
     }
 }

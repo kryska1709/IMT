@@ -6,10 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.imt.view.ImtView
 import com.example.imt.view.InfoImtView
+import com.example.imt.viewModel.ImtViewModel
 
 @Composable
 fun NavigationGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    imtViewModel: ImtViewModel
 ) {
     NavHost(
         navController = navHostController,
@@ -19,7 +21,8 @@ fun NavigationGraph(
             route = Screen.ImtScreen.route
         ){
             ImtView(
-                navController = navHostController
+                navController = navHostController,
+                imtViewModel
             )
         }
 
